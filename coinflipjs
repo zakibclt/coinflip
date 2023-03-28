@@ -1,0 +1,17 @@
+const connectWalletButton = document.getElementById("connect-wallet");
+
+connectWalletButton.addEventListener("click", async () => {
+  try {
+    // Request access to the user's wallet
+    await ethereum.request({ method: 'eth_requestAccounts' });
+    // Update the signer to the user's wallet
+    const accounts = await ethereum.request({ method: 'eth_accounts' });
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    signer = provider.getSigner(accounts[0]);
+    // Update the UI to indicate that the user is connected
+    connectWalletButton.innerHTML = "Wallet Connected";
+    connectWalletButton.disabled = true;
+  } catch (error) {
+    console.error(error);
+  }
+});
